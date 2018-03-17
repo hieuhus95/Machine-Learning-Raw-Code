@@ -1,1 +1,47 @@
+import numpy as np
+
+def predict(features, weights):
+  """create h(x)"""
+  return np.dot(features, weights)
+  
+def cost_function(features, weights, labels):
+  """
+  features(200,3)
+  weights(3,1)
+  labels(200,1)
+  h(200,1)
+  """
+  h = predict(features, weights)
+  J = 1/2 * np.sum((h - labels)**2)
+  return J
+
+def gradient(features, weights, labels):
+  """
+  features(200,3)
+  weights(3,1)
+  labels(200,1)
+  h(200,1)
+  """
+  h = predict(features, weights)
+  grad = np.dot(features.T, (h - labels))
+  return grad
+
+def update_weights(features, weights, labels, lr):
+  """
+  Update weight function
+  return a 3x1 vector gradient 
+  """
+  grad = gradient(features, weights, labels)
+  weights += lr*gradient
+  return weights
+
+def train(features, weights, labels, lr, iters):
+  """"""
+  for i in range(iters):
+    weights = update_weights(features, weights, labels,lr)
+    cost = cost_function(features, weights, labels)
+    if iters % 500 == 0:
+      print("weights: ", weights)
+      print("cost: ", cost)
+  return cost_history, weights
 
